@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">口罩预约助手</string>
+    <string name="app_your_name">姓名</string>
+    <string name="app_your_phone_number">手机号</string>
+    <string name="app_your_identity_card_id">身份证</string>
+    <string name="app_save">保存</string>
+    <string name="app_cancel">取消</string>
+    <string name="app_delete">删除</string>
+    <string name="app_copy">复制</string>
+
+    <string name="app_copy_success">复制成功</string>
+    <string name="app_please_input_your_name">请输入姓名</string>
+    <string name="app_please_input_your_phone_number">请输入手机号</string>
+    <string name="app_please_input_your_identity_card_id">请输入身份证</string>
+
+    <string name="app_save_success">保存成功</string>
+</resources>

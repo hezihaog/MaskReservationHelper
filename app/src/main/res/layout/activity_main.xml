@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/PeopleDataInputLayout">
+
+        <TextView
+            style="@style/PeopleDataTitle"
+            android:text="@string/app_your_name" />
+
+        <EditText
+            android:id="@+id/your_name_input"
+            style="@style/PeopleDataInput" />
+
+        <Button
+            android:id="@+id/copy_your_name"
+            style="@style/PeopleDataCopyBtn"
+            android:text="@string/app_copy" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/PeopleDataInputLayout">
+
+        <TextView
+            style="@style/PeopleDataTitle"
+            android:text="@string/app_your_phone_number" />
+
+        <EditText
+            android:id="@+id/your_phone_number_input"
+            style="@style/PeopleDataInput"
+            android:inputType="phone" />
+
+        <Button
+            android:id="@+id/copy_your_phone_number"
+            style="@style/PeopleDataCopyBtn"
+            android:text="@string/app_copy" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/PeopleDataInputLayout">
+
+        <TextView
+            style="@style/PeopleDataTitle"
+            android:text="@string/app_your_identity_card_id" />
+
+        <EditText
+            android:id="@+id/your_identity_card_id_input"
+            style="@style/PeopleDataInput"
+            android:inputType="textEmailAddress" />
+
+        <Button
+            android:id="@+id/copy_your_identity_card_id"
+            style="@style/PeopleDataCopyBtn"
+            android:text="@string/app_copy" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/save_data"
+        style="@style/PeopleDataSaveBtn"
+        android:text="@string/app_save" />
+</LinearLayout>
