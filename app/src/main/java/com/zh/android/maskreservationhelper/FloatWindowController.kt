@@ -1,6 +1,8 @@
 package com.zh.android.maskreservationhelper
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +17,8 @@ import com.zh.android.floatwindow.FloatWindowOption
 import com.zh.android.floatwindow.ScreenUtil
 import com.zh.android.maskreservationhelper.ext.setTextAndSelection
 import com.zh.android.maskreservationhelper.ext.toast
+import com.zh.android.maskreservationhelper.model.PeopleDataModel
+import com.zh.android.maskreservationhelper.util.AppBroadcastManager
 import com.zh.android.maskreservationhelper.util.ClipboardUtils
 
 class FloatWindowController(private val context: Context) {
@@ -125,6 +129,7 @@ class FloatWindowController(private val context: Context) {
             }
             if (childView is TextView) {
                 childView.setTextColor(context.resources.getColor(R.color.white))
+                childView.isEnabled = false
             }
         }
     }
@@ -135,6 +140,19 @@ class FloatWindowController(private val context: Context) {
         vYourNameInput.setTextAndSelection(peopleData.name)
         vYourPhoneNumberInput.setTextAndSelection(peopleData.phoneNumber)
         vYourIdentityCardIdInput.setTextAndSelection(peopleData.identityCardId)
+        //注册广播接收资料更新
+        AppBroadcastManager.registerReceiver(context, object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                intent?.run {
+                    val model = getSerializableExtra(Constant.Key.PEOPLE_DATA) as PeopleDataModel
+                    model.run {
+                        vYourNameInput.setTextAndSelection(name)
+                        vYourPhoneNumberInput.setTextAndSelection(phoneNumber)
+                        vYourIdentityCardIdInput.setTextAndSelection(identityCardId)
+                    }
+                }
+            }
+        }, Constant.Action.UPDATE_PEOPLE_DATA)
     }
 
     /**

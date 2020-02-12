@@ -12,8 +12,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:paddingStart">10dp</item>
-        <item name="android:paddingTop">8dp</item>
-        <item name="android:paddingEnd">5dp</item>
+        <item name="android:paddingEnd">8dp</item>
     </style>
 
     <style name="PeopleDataTitle">
@@ -27,6 +26,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:maxLines">1</item>
     </style>
@@ -34,7 +34,8 @@
     <style name="PeopleDataCopyBtn">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginRight">-8dp</item>
+        <item name="android:layout_marginEnd">-8dp</item>
     </style>
 
     <style name="PeopleDataSaveBtn">

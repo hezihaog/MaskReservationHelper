@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:paddingTop="8dp"
     android:paddingBottom="8dp">
 
     <LinearLayout style="@style/PeopleDataInputLayout">
@@ -21,7 +22,9 @@
             android:text="@string/app_copy" />
     </LinearLayout>
 
-    <LinearLayout style="@style/PeopleDataInputLayout">
+    <LinearLayout
+        style="@style/PeopleDataInputLayout"
+        android:layout_marginTop="8dp">
 
         <TextView
             style="@style/PeopleDataTitle"
@@ -38,7 +41,9 @@
             android:text="@string/app_copy" />
     </LinearLayout>
 
-    <LinearLayout style="@style/PeopleDataInputLayout">
+    <LinearLayout
+        style="@style/PeopleDataInputLayout"
+        android:layout_marginTop="8dp">
 
         <TextView
             style="@style/PeopleDataTitle"

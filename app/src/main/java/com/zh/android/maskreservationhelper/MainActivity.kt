@@ -15,6 +15,7 @@ import com.zh.android.floatwindow.WindowPermissionAgent
 import com.zh.android.floatwindow.WindowPermissionUtil
 import com.zh.android.maskreservationhelper.ext.setTextAndSelection
 import com.zh.android.maskreservationhelper.ext.toast
+import com.zh.android.maskreservationhelper.util.AppBroadcastManager
 import com.zh.android.maskreservationhelper.util.ClipboardUtils
 
 class MainActivity : AppCompatActivity() {
@@ -102,6 +103,12 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             PeopleDataStorage.savePeopleData(nameInput, phoneNumberInput, identityCardIdInput)
+            //发送广播同步更新
+            AppBroadcastManager.sendBroadcast(applicationContext,
+                Constant.Action.UPDATE_PEOPLE_DATA,
+                Bundle().apply {
+                    putSerializable(Constant.Key.PEOPLE_DATA, PeopleDataStorage.getPeopleData())
+                })
             ToastUtils.showShort(R.string.app_save_success)
         }
     }
