@@ -1,12 +1,20 @@
 package com.zh.android.maskreservationhelper
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import com.blankj.utilcode.util.ToastUtils
+import com.zh.android.floatwindow.FloatWindowManager
+import com.zh.android.floatwindow.FloatWindowPermissionCallback
+import com.zh.android.floatwindow.WindowPermissionAgent
+import com.zh.android.floatwindow.WindowPermissionUtil
 import com.zh.android.maskreservationhelper.ext.setTextAndSelection
+import com.zh.android.maskreservationhelper.ext.toast
 import com.zh.android.maskreservationhelper.util.ClipboardUtils
 
 class MainActivity : AppCompatActivity() {
@@ -18,12 +26,23 @@ class MainActivity : AppCompatActivity() {
     private lateinit var vCopyYourIdentityCardId: Button
     private lateinit var vSaveData: Button
 
+    /**
+     * 悬浮窗权限申请
+     */
+    private lateinit var mPermissionAgent: WindowPermissionAgent
+    /**
+     * 悬浮窗管理器
+     */
+    private val mFloatWindowController by lazy {
+        FloatWindowController(this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val contentView = findViewById<View>(android.R.id.content)
         findView(contentView)
-        bindView(contentView)
+        bindView()
         setData()
     }
 
@@ -37,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         vSaveData = view.findViewById(R.id.save_data)
     }
 
-    private fun bindView(view: View) {
+    private fun bindView() {
         //复制姓名
         vCopyYourName.setOnClickListener {
             val input = vYourNameInput.text.toString()
@@ -93,6 +112,54 @@ class MainActivity : AppCompatActivity() {
         vYourNameInput.setTextAndSelection(peopleData.name)
         vYourPhoneNumberInput.setTextAndSelection(peopleData.phoneNumber)
         vYourIdentityCardIdInput.setTextAndSelection(peopleData.identityCardId)
+        //显示悬浮窗
+        requestFloatWindowPermission {
+            showFloatWindow()
+        }
+    }
+
+    /**
+     * 显示悬浮窗
+     */
+    private fun showFloatWindow() {
+        mFloatWindowController.makeFloatWindow()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        this.mPermissionAgent.onActivityResult(requestCode, resultCode, data)
+    }
+
+    /**
+     * 申请悬浮窗权限
+     */
+    private fun requestFloatWindowPermission(onAllowBlock: () -> Unit) {
+        if (!this::mPermissionAgent.isInitialized) {
+            this.mPermissionAgent =
+                WindowPermissionAgent(this, PermissionCallback(this, Runnable {
+                    onAllowBlock()
+                }))
+        }
+        if (WindowPermissionUtil.hasPermission(this)) {
+            mPermissionAgent.callback.onPermissionAllow()
+        } else {
+            //请求权限
+            mPermissionAgent.requestPermission()
+        }
+    }
+
+    private class PermissionCallback(
+        private val mActivity: Activity,
+        private val mAction: Runnable
+    ) :
+        FloatWindowPermissionCallback {
+        override fun onPermissionAllow() {
+            mAction.run()
+        }
+
+        override fun onPermissionReject() {
+            mActivity.toast("请允许" + mActivity.resources.getString(R.string.app_name) + "出现在顶部")
+        }
     }
 
     /**
@@ -100,6 +167,6 @@ class MainActivity : AppCompatActivity() {
      */
     private fun copyTextToClipboard(text: String) {
         ClipboardUtils.copyText(text)
-        ToastUtils.showShort(R.string.app_copy_success)
+        toast(R.string.app_copy_success)
     }
 }
